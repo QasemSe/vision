@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('welcome/{name}', function (\Illuminate\Http\Request $request) {
-//    return $request->name;
-//});
+Route::get('welcome/{name}', function (\Illuminate\Http\Request $request) {
+    return $request->name;
+});
 
 //
 //Route::get('news', function () {
