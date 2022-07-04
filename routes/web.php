@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Site1Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +49,10 @@ use Illuminate\Support\Facades\Route;
 //Route::get('users/{user}/posts/{post}/comment/{comment}', function ($user, $post, $comment) {
 //    return "$user | $post | $comment";
 //})->name('comments');
+
+
+/**
+ * Lec 7
+ */
+
+Route::get('site1/i', [Site1Controller::class, 'index'])->name('site1');
