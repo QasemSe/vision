@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site1Controller;
+use App\Http\Controllers\Site2Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,4 +56,12 @@ use App\Http\Controllers\Site1Controller;
  * Lec 7
  */
 
-Route::get('site1/i', [Site1Controller::class, 'index'])->name('site1');
+Route::get('site1', [Site1Controller::class, 'index'])->name('site1');
+
+
+Route::prefix('site2')->name('site2.')->group(function() {
+    Route::get('/', [Site2Controller::class, 'index'])->name('index');
+    Route::get('/about', [Site2Controller::class, 'about'])->name('about');
+    Route::get('/contact', [Site2Controller::class, 'contact'])->name('contact');
+    Route::get('/post', [Site2Controller::class, 'post'])->name('post');
+});
