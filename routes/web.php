@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site1Controller;
 use App\Http\Controllers\Site2Controller;
+use App\Http\Controllers\Site3Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +65,18 @@ Route::prefix('site2')->name('site2.')->group(function() {
     Route::get('/about', [Site2Controller::class, 'about'])->name('about');
     Route::get('/contact', [Site2Controller::class, 'contact'])->name('contact');
     Route::get('/post', [Site2Controller::class, 'post'])->name('post');
+});
+
+
+/**
+ * Lec 8
+ */
+
+Route::prefix('site3')->name('site3.')->group(function () {
+    Route::get('/', [Site3Controller::class, 'about'])->name('about');
+    Route::get('/experience', [Site3Controller::class, 'experience'])->name('experience');
+    Route::get('/education', [Site3Controller::class, 'education'])->name('education');
+    Route::get('/skills', [Site3Controller::class, 'skills'])->name('skills');
+    Route::get('/interests', [Site3Controller::class, 'interests'])->name('interests');
+    Route::get('/awards', [Site3Controller::class, 'awards'])->name('awards');
 });
