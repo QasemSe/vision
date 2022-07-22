@@ -95,3 +95,15 @@ Route::post('form2', [FormsController::class, 'form2_data']);
 
 Route::get('form3', [FormsController::class, 'form3'])->name('form3');
 Route::post('form3', [FormsController::class, 'form3_data']);
+
+
+/**
+ *  Lec 10
+ */
+
+Route::get('form4', [FormsController::class, 'form4'])->name('form4');
+Route::post('form4', [FormsController::class, 'form4_data']);
+
+
+Route::get('form5', [FormsController::class, 'form5'])->name('form5');
+Route::post('form5', [FormsController::class, 'form5_data']);
