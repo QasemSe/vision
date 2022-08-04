@@ -126,3 +126,13 @@ Route::post('contact-us', [MailsController::class, 'contact_us_data']);
  */
 
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+
+/*
+ * Lecture 14
+ */
+
+Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::post('posts/create', [PostController::class, 'store'])->name('posts.store');
+
+Route::delete('posts/{id}/destroy', [PostController::class, 'destroy'])->name('posts.destroy');
+
