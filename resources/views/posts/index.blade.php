@@ -42,51 +42,14 @@
                 <button class="btn btn-outline-dark" id="button-addon2">Search</button>
             </div>
         </form>
-        <table class="table table-bordered table-hover table-striped">
-            <tr class="table-dark">
-                <th>ID</th>
-                <th>Title</th>
-                <th>Image</th>
-                <th>Viewers</th>
-                <th>Created At</th>
-                <th>Updated AT</th>
-                <th>Actions</th>
-            </tr>
 
-            @forelse($posts as $post)
-                <tr>
-                    <td>{{ $post->id }}</td>
-                    <td>{{ $post->title }}</td>
-                    <td><img width="80px" src="{{ asset('uploads/' . $post->image) }}" alt="{{ $post->title }}"></td>
-                    <td>{{ $post->viewer }}</td>
-                    <td>{{ $post->created_at->format('M d, Y') }}</td>
-                    <td>{{ $post->updated_at->diffForHumans() }}</td>
-                    <td>
-                        <a class="btn btn-sm btn-primary" href="#">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <form class="d-inline" action="{{ route('posts.destroy', $post->id) }}" method="post">
-                            @csrf
-                            @method('delete')
-                            <button onclick="return confirm('Are you sure!')" class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="text-center">No Data Found</td>
-                </tr>
-            @endforelse
+        <div class="table-content">
+            @include('posts.table')
 
-        </table>
-
-{{--        {{ $posts->appends(['search' => request()->search, 'count' => request()->count])->links() }}--}}
-        {{ $posts->appends($_GET)->links() }}
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         setTimeout(() => {
@@ -109,6 +72,86 @@
         })
     </script>
     @endif
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+            return false;
+        };
+
+        $('body').on('click', '.btn-del', function (event) {
+            event.preventDefault();
+
+            var url = $(this).parent().attr('action');
+            var post_id = $(this).parent().data('post-id');
+            var row = $(this).parents('tr');
+
+
+            var search = getUrlParameter('search');
+            if (!search) {
+                search = null
+            }
+            var count = getUrlParameter('count');
+            if (!count) {
+                count = null
+            }
+            Swal.fire({
+
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: url,
+                        type: 'post',
+                        data: {
+                            _token : '{{ csrf_token() }}',
+                            _method: 'delete',
+                            post_id: post_id,
+                            search: search,
+                            count: count
+                        },
+                        success: function (res){
+                            $('.table-content').html(res);
+                            // row.remove();
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                        },
+                        error:function (error){
+                            console.log('Error')
+                        }
+                    });
+
+
+                }
+            })
+
+
+        });
+    </script>
 
 </body>
 </html>
