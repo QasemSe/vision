@@ -5,15 +5,15 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Posts</title>
+    <title>Edit Categories</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container my-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Edit Post : <span class="text-danger">{{ $post->title }}</span></h1>
-            <a href="{{ route('posts.index') }}" class="btn btn-dark w-25">All Posts</a>
+            <h1>Edit Category : <span class="text-danger">{{ $category->title }}</span></h1>
+            <a href="{{ route('categories.index') }}" class="btn btn-dark w-25">All Categories</a>
         </div>
 
         @if(session('msg'))
@@ -22,11 +22,11 @@
         </div>
         @endif
 
-        <form action="{{ route('posts.update', $post->id) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('categories.update', $category->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('put')
 
-            @include('posts.form')
+            @include('categories.form')
 
             <button class="btn btn-success px-5">Update</button>
         </form>

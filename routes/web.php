@@ -8,6 +8,7 @@ use App\Http\Controllers\Site3Controller;
 use App\Http\Controllers\MailsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RelationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,5 +144,8 @@ Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 Route::resource('posts', PostController::class)->except('destroy');
 Route::delete('posts', [PostController::class, 'destroy'])->name('posts.destroy');
 
-Route::resource('categories', CategoryController::class);
+Route::resource('categories', CategoryController::class)->except('destroy');
+Route::delete('categories', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
+
+Route::get('one-to-one', [RelationController::class, 'one_to_one'])->name('one_to_one');
