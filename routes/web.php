@@ -149,3 +149,10 @@ Route::delete('categories', [CategoryController::class, 'destroy'])->name('categ
 
 
 Route::get('one-to-one', [RelationController::class, 'one_to_one'])->name('one_to_one');
+
+Route::get('one-to-many', [RelationController::class, 'one_to_many'])->name('one_to_many');
+Route::post('one-to-many', [RelationController::class, 'one_to_many_data']);
+
+Route::get('many-to-many', [RelationController::class, 'many_to_many'])->name('many_to_many');
+Route::post('many-to-many', [RelationController::class, 'many_to_many_data']);
+
