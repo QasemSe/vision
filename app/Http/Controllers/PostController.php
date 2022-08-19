@@ -36,6 +36,12 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
+    public function trash()
+    {
+        $posts = Post::onlyTrashed()->get();
+
+        return view('posts.trash', compact('posts'));
+    }
 
     public function create()
     {
@@ -75,22 +81,24 @@ class PostController extends Controller
             File::delete(public_path('uploads/' . $post->image));
             $post->delete();
 
-            $count = 20;
+//            $count = 20;
+//
+//            if (request()->has('count') && request()->count != 'all') {
+//                $count = request()->count;
+//            }
+//
+//            if (request()->has('count') && request()->count == 'all') {
+//                $count = Post::count();
+//            }
+//
+//            if (request()->has('search')) {
+//                $posts = Post::where('title', 'like','%' . request()->search . '%')->orWhere('body', 'like','%' . request()->search . '%')->OrderByDesc('id')->paginate($count);
+//            }
+//            else {
+//                $posts = Post::OrderByDesc('id')->paginate($count);
+//            }
 
-            if (request()->has('count') && request()->count != 'all') {
-                $count = request()->count;
-            }
-
-            if (request()->has('count') && request()->count == 'all') {
-                $count = Post::count();
-            }
-
-            if (request()->has('search')) {
-                $posts = Post::where('title', 'like','%' . request()->search . '%')->orWhere('body', 'like','%' . request()->search . '%')->OrderByDesc('id')->paginate($count);
-            }
-            else {
-                $posts = Post::OrderByDesc('id')->paginate($count);
-            }
+            $posts = Post::OrderByDesc('id')->paginate(20);
 
             return view('posts.table', compact('posts'))->render();
         }
@@ -148,5 +156,20 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('posts.index')->with('msg', 'Post updated successfully!')->with('type', 'warning');
+    }
+
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->findOrFail($id);
+        $post->restore();
+
+        return redirect()->route('posts.trash')->with('msg', 'Post restored successfully!')->with('type', 'success');
+    }
+
+    public function delete($id)
+    {
+        $post = Post::withTrashed()->findOrFail($id);
+        $post->forceDelete();
+        return redirect()->route('posts.trash')->with('msg', 'Post deleted permanently successfully!')->with('type', 'success');
     }
 }

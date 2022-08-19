@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendMails;
 use App\Mail\ContactUsMail;
+use App\Mail\NewMail;
 use App\Mail\TestMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -32,5 +34,14 @@ class MailsController extends Controller
         $request->file('image')->move(public_path('uploads'), $img_name);
 
         Mail::to('contact@gmail.com')->send(new ContactUsMail($request->except('_token'), $img_name));
+    }
+
+    public function new_mail()
+    {
+        foreach(range(1, 20) as $i)
+        {
+            dispatch(new SendMails());
+        }
+
     }
 }

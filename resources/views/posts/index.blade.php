@@ -108,6 +108,7 @@
             if (!count) {
                 count = null
             }
+            var page = '{{ request()->page }}';
             Swal.fire({
 
                 title: 'Are you sure?',
@@ -129,7 +130,8 @@
                             _method: 'delete',
                             post_id: post_id,
                             search: search,
-                            count: count
+                            count: count,
+                            page: page
                         },
                         success: function (res){
                             $('.table-content').html(res);

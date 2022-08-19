@@ -9,6 +9,7 @@ use App\Http\Controllers\MailsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RelationController;
+use App\Http\Controllers\MainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,8 +142,14 @@ Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 //Route::get('posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
 //Route::put('posts/{id}/update', [PostController::class, 'update'])->name('posts.update');
 
-Route::resource('posts', PostController::class)->except('destroy');
+Route::get('posts/trash', [PostController::class, 'trash'])->name('posts.trash');
+
+Route::post('posts/{id}/restore', [PostController::class, 'restore'])->name('posts.restore');
+
+Route::delete('posts/{id}/delete', [PostController::class, 'delete'])->name('posts.delete');
 Route::delete('posts', [PostController::class, 'destroy'])->name('posts.destroy');
+Route::resource('posts', PostController::class)->except('destroy');
+
 
 Route::resource('categories', CategoryController::class)->except('destroy');
 Route::delete('categories', [CategoryController::class, 'destroy'])->name('categories.destroy');
@@ -156,3 +163,6 @@ Route::post('one-to-many', [RelationController::class, 'one_to_many_data']);
 Route::get('many-to-many', [RelationController::class, 'many_to_many'])->name('many_to_many');
 Route::post('many-to-many', [RelationController::class, 'many_to_many_data']);
 
+Route::get('new-mail', [MailsController::class, 'new_mail']);
+
+Route::get('custom-posts', [MainController::class, 'custom_posts'])->name('custom_posts');
